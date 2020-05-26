@@ -1,0 +1,6 @@
+# Generated files by hugo
+/hugo/public/
+/hugo/resources/_gen/assets/scss/
+
+# macOS
+.DS_Store
