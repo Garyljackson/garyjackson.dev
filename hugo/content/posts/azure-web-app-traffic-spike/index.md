@@ -3,7 +3,12 @@ title: "Massive Traffic Surge to an Azure Web Application"
 date: 2020-05-27
 author: Gary Jackson
 draft: false
-
+categories:
+- Development
+tags:
+- Azure
+- "Azure Front Door"
+- "Azure Web Applications"
 ---
 
 ## Scenario
