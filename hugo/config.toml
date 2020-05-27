@@ -3,7 +3,8 @@ baseURL = "http://garyjackson.dev/"
 defaultContentLanguage = "en"
 # language code
 languageCode = "en-au"
-title = "My New Hugo Site"
+title = "Gary Jackson"
+enableEmoji = true
 
 # Change the default theme to be use when building the site with Hugo
 theme = "LoveIt"
