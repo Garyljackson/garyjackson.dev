@@ -116,7 +116,7 @@ Okay, so what are my theories now - hmm
 1. Are there other Azure resources that are also in the Front Door ranges?
 2. Maybe someone has created their own Front Door Instance, and has pointed it to my App?
 
-To deal with option 2, you need to actaully check an incoming header in the request for the ID of the Front Door - argh - nooo, I don't want the requests to get to the app in the first place!
+To deal with option 2, you need to actually check an incoming header in the request for the ID of the Front Door - argh - nooo, I don't want the requests to get to the app in the first place!
 
 ### The Plan - uhm, part 2
 
