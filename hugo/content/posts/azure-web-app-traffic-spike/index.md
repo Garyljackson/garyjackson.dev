@@ -1,6 +1,7 @@
 ---
 title: "Massive Traffic Surge to an Azure Web Application"
 date: 2020-05-27
+lastmod: 2020-05-28
 author: Gary Jackson
 draft: false
 categories:
@@ -143,6 +144,15 @@ And so there you have it, if you stuck with it, then well done - hopefully, this
 
 ## Just give me the damn solution
 It's Azure Front Door - Disable the Health Probe in the Backend Pool configuration - or increase the Health Probe Interval.
+
+### Update
+After playing around with various different configurations I eventually settled on the following
+{{< figure src="images/UpdatedProbeConfig.PNG" alt="Backend Pool Configuration"  >}}
+  
+And If you're wondering what the "HEAD" probe method means exactly  
+{{< figure src="images/ProbeHead.png" alt="Backend Pool Configuration"  >}}
+
+
 
 ### Resources
 [How to lock down access to a web app to Azure Front Door](https://docs.microsoft.com/en-us/azure/frontdoor/front-door-faq#how-do-i-lock-down-the-access-to-my-backend-to-only-azure-front-door)  

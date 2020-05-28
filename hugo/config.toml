@@ -17,6 +17,13 @@ theme = "LoveIt"
     GitHub = "garyljackson"
     Linkedin = "garyljackson"
 
+  [params.page]
+    [params.page.code]
+      # whether to show the copy button of the code block
+      copy = true
+      # the maximum number of lines of displayed code by default
+      maxShownLines = 10
+
   [params.home]
     [params.home.profile]
       enable = true
@@ -68,9 +75,14 @@ theme = "LoveIt"
     title = ""
     weight = 3
 
-# Markup related configuration in Hugo
+# Markup related config in Hugo
 [markup]
-  # Syntax Highlighting (https://gohugo.io/content-management/syntax-highlighting)
+  # Syntax Highlighting
   [markup.highlight]
-    # false is a necessary configuration (https://github.com/dillonzq/LoveIt/issues/158)
+    codeFences = true
+    guessSyntax = true
+    lineNos = true
+    lineNumbersInTable = true
+    # false is a necessary configuration
+    # (https://github.com/dillonzq/LoveIt/issues/158)
     noClasses = false
