@@ -1,5 +1,6 @@
 ---
 title: "Massive Traffic Surge to an Azure Web Application"
+summary: "How to fix a massive increase in number of requests and outbound data when using Azure Front Door."
 date: 2020-05-27
 lastmod: 2020-05-28
 author: Gary Jackson
@@ -19,7 +20,7 @@ Are you also using Azure Front Door to manage traffic to that same Web Applicati
 
 Well, you have come to the right place, I might just have the answer for you.
 
-You have the option of skipping all the gory details of my wonderful day by jumping to the **Just give me the damn solution** section at the bottom, or, if you're up for a bit of a journey, join me.
+You have the option of skipping all the gory details of my wonderful day by jumping to the [Just give me the damn solution]({{< ref "#just-give-me-the-damn-solution" >}}) section at the bottom, or, if you're up for a bit of a journey, join me.
 
 ## Oh go on, tell me the story
 
