@@ -23,6 +23,14 @@ theme = "LoveIt"
       copy = true
       # the maximum number of lines of displayed code by default
       maxShownLines = 10
+    [params.page.comment]
+      enable = true
+      # Disqus comment config
+      [params.page.comment.disqus]
+        # LoveIt NEW | 0.1.1
+        enable = true
+        # Disqus shortname to use Disqus in posts
+        shortname = "garyjackson"      
 
   [params.home]
     [params.home.profile]
