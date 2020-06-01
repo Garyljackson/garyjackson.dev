@@ -1,6 +1,6 @@
 ---
-title: "Adding Application Insights to your Hugo site"
-summary: "How to add Application Insights to your Hugo site when using a community theme"
+title: "Adding Application Insights to your Hugo website"
+summary: "How to add Application Insights to your Hugo site when using a community theme."
 date: 2020-05-31
 lastmod: 2020-06-01
 author: Gary Jackson
