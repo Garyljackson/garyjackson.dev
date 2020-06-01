@@ -2,7 +2,7 @@
 title: "Massive Traffic Surge to an Azure Web Application"
 summary: "How to fix a massive increase in number of requests and outbound data when using Azure Front Door."
 date: 2020-05-27
-lastmod: 2020-05-28
+lastmod: 2020-06-01
 author: Gary Jackson
 draft: false
 categories:
@@ -45,7 +45,7 @@ In addition to that, this traffic was coming directly to the AzureWebsites origi
 
 Fortunately, I had also set up Application Insights as part of the migration and ran the following query.
 
-```
+```kusto
 requests
 | where timestamp >= ago(24h)
 | where cloud_RoleName == "the-name-of-the-web-app"
@@ -77,7 +77,7 @@ That should take care of those pesky Brits... right??
 Nope! No change in the traffic! *sigh*  :confused:
 
 I jump back into Application Insights and run a similar query, but only for the last 10 mins.
-```
+```kusto
 requests
 | where timestamp >= ago(10m)
 | where cloud_RoleName == "the-name-of-the-web-app"
@@ -87,7 +87,7 @@ requests
 
 Dammit, I can still see requests coming in, let me check what Url they're hitting now.
 
-```
+```kusto
 requests
 | where timestamp >= ago(10m)
 | where cloud_RoleName == "the-name-of-the-web-app"
@@ -156,9 +156,10 @@ And If you're wondering what the "HEAD" probe method means exactly
 
 
 ### Resources
-[How to lock down access to a web app to Azure Front Door](https://docs.microsoft.com/en-us/azure/frontdoor/front-door-faq#how-do-i-lock-down-the-access-to-my-backend-to-only-azure-front-door)  
-[Application Insights IP collection policy](https://docs.microsoft.com/en-us/azure/azure-monitor/app/ip-collection)  
-[IP Address Lookup](https://www.ultratools.com/tools/ipWhoisLookupResult)  
-[Azure Front Door Health Probes](https://docs.microsoft.com/en-au/azure/frontdoor/front-door-health-probes)  
+- [How to lock down access to a web app to Azure Front Door](https://docs.microsoft.com/en-us/azure/frontdoor/front-door-faq#how-do-i-lock-down-the-access-to-my-backend-to-only-azure-front-door)  
+- [Application Insights IP collection policy](https://docs.microsoft.com/en-us/azure/azure-monitor/app/ip-collection)  
+- [IP Address Lookup](https://www.ultratools.com/tools/ipWhoisLookupResult)  
+- [Azure Front Door Health Probes](https://docs.microsoft.com/en-au/azure/frontdoor/front-door-health-probes)  
+- [CIDR to IPv4 Conversion](https://www.ipaddressguide.com/cidr)
 
 
