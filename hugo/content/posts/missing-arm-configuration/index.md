@@ -2,7 +2,7 @@
 title: "Missing Azure Resource Manager Configuration"
 summary: "How to find ARM configuration when there are no examples, and export template isn't helping."
 date: 2020-06-01
-lastmod: 2020-06-01
+lastmod: 2020-06-05
 author: Gary Jackson
 draft: false
 categories:
@@ -233,6 +233,13 @@ Also, helpful to know - if you look further up the output, you can find the curr
 ```
 
 Alright, that's about it from me - good luck.
+
+{{< admonition type=note title="Update" open=true >}}
+Since publishing this post, I've also discovered that you can dig throught the actual JSON definition files published on GitHub.
+
+For instance, the current Front Door ARM JSON definition can be [seen here](https://github.com/Azure/azure-rest-api-specs/blob/master/specification/frontdoor/resource-manager/Microsoft.Network/stable/2020-05-01/frontdoor.json)
+{{< /admonition >}}
+
 
 ## Resources
 - [Azure Resource Explorer](https://resources.azure.com)
