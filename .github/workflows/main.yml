@@ -29,5 +29,8 @@ jobs:
         hugo-version: 'latest'
           # extended: true
 
+    - name: Open Hugo Directory
+      run: cd hugo/
+
     - name: Build
       run: hugo --minify
