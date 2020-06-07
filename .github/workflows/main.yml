@@ -31,6 +31,9 @@ jobs:
 
     - name: Open Hugo Directory
       run: cd hugo/
+    
+    - name: List folder contents
+      run: ls
 
     - name: Build
       run: hugo --minify
