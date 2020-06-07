@@ -1,16 +1,17 @@
 ---
 title: "Missing Azure Resource Manager Configuration"
 summary: "How to find ARM configuration when there are no examples, and export template isn't helping."
-date: 2020-06-01
-lastmod: 2020-06-05
+date: "2020-06-01"
+lastmod: "2020-06-05"
 author: Gary Jackson
 draft: false
 categories:
-- Development
+- "Development"
 tags:
 - "Azure"
 - "ARM"
 - "Azure Resource Manager"
+- "Devops"
 ---
 
 ## Overview

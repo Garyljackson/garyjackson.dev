@@ -1,16 +1,17 @@
 ---
 title: "Massive Traffic Surge to an Azure Web Application"
 summary: "How to fix a massive increase in number of requests and outbound data when using Azure Front Door."
-date: 2020-05-27
-lastmod: 2020-06-01
+date: "2020-05-27"
+lastmod: "2020-06-01"
 author: Gary Jackson
 draft: false
 categories:
-- Development
+- "Development"
 tags:
 - Azure
 - "Azure Front Door"
 - "Azure Web Applications"
+- "Devops"
 ---
 
 ## Scenario
