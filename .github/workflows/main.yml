@@ -33,8 +33,23 @@ jobs:
       with:
         hugo-version: 'latest'
 
-    - name: Run a one-line script
-      run: ls
-              
     - name: Build
       run: hugo --minify --source hugo
+
+    - name: Deploy build to static site (Azure storage blob)
+      run: hugo deploy --maxDeletes -1 --source hugo
+      env:
+        AZURE_STORAGE_ACCOUNT: ${{ env.AZURE_STORAGE_ACCOUNT_NAME }}
+        AZURE_STORAGE_KEY: ${{ secrets.AZURE_STORAGE_KEY }}
+    
+    - name: Azure Login
+      uses: Azure/login@v1.1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Purge CDN
+      run: az cdn endpoint purge -n ${{ secrets.AZURE_CDN_ENDPOINT_NAME }} --profile-name ${{ secrets.AZURE_CDN_PROFILE_NAME }} --content-paths "/*" --resource-group ${{ secrets.AZURE_RESOURCE_GROUP }} --no-wait
+        
+    - name: Azure logout
+      run: az logout
+    
