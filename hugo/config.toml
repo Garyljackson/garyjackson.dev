@@ -94,3 +94,25 @@ theme = "LoveIt"
     # false is a necessary configuration
     # (https://github.com/dillonzq/LoveIt/issues/158)
     noClasses = false
+
+[deployment]
+  order = [".jpg$", ".gif$"]
+
+  [[deployment.targets]]
+    name = "azure"
+    URL = "azblob://$web"
+
+  [[deployment.matchers]]
+    #  Cache static assets for 1 year.
+    pattern = "^.+\\.(js|css|svg|ttf)$"
+    cacheControl = "max-age=31536000, no-transform, public"
+    gzip = true
+
+  [[deployment.matchers]]
+    pattern = "^.+\\.(png|jpg)$"
+    cacheControl = "max-age=31536000, no-transform, public"
+    gzip = false
+
+  [[deployment.matchers]]
+    pattern = "^.+\\.(html|xml|json)$"
+    gzip = true
