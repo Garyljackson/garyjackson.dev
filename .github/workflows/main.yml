@@ -34,4 +34,4 @@ jobs:
       run: ls
               
     - name: Build
-      run: hugo --minify
+      run: hugo --minify --source hugo
