@@ -109,7 +109,7 @@ theme = "LoveIt"
     gzip = true
 
   [[deployment.matchers]]
-    pattern = "^.+\\.(png|jpg)$"
+    pattern = "^.+\\.(png|PNG|jpg|JPG)$"
     cacheControl = "max-age=31536000, no-transform, public"
     gzip = false
 
