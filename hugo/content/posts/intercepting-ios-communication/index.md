@@ -165,6 +165,21 @@ Apps that didn't work
 - FaceBook
 - Instagram
 
+## How do I undo all this?
+### Turn off the proxy
+To get your phone back to normal working order.
+- Navigate to `Settings/Wi-Fi` and tap on the blue circled `i` on the right.
+- Scroll to the bottom, and tap on `Configure Proxy`
+- Select `Off` and save
+
+### Uninstall a custom profile
+- Navigate to `Settings/General/Profiles`
+- Tap the mitmproxy profile
+- Tap the `Remove Profile` button and follow the prompts
+
+Removing the profile also removes the certificate settings - so you're done.
+
+
 ## References
 - [mitmproxy Website](https://mitmproxy.org/)
 - [mitmproxy GitHub](https://github.com/mitmproxy/mitmproxy)
