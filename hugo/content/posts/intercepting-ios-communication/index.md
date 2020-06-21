@@ -4,7 +4,7 @@ summary: "How to intercept and decrypt the HTTPS communications for *some* of yo
 date: "2020-06-21T10:24:00+10:00"
 lastmod: "2020-06-21T10:24:00+10:00"
 author: Gary Jackson
-draft: true
+draft: false
 categories:
 - "Development"
 tags:
