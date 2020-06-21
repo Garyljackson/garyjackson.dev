@@ -1,8 +1,8 @@
 ---
 title: "Intercepting and Decrypting iOS communications"
 summary: "How to intercept and decrypt the HTTPS communications for *some* of your iOS applications"
-date: "2020-06-19T19:06:00+10:00"
-lastmod: "2020-06-19T19:06:00+10:00"
+date: "2020-06-21T10:24:00+10:00"
+lastmod: "2020-06-21T10:24:00+10:00"
 author: Gary Jackson
 draft: true
 categories:
@@ -11,41 +11,161 @@ tags:
 - "iOS"
 - "Encryption"
 - "Decryption"
+- "Reverse Engineering"
 ---
 
 ## Overview
 
-Ever wondered how you can view the network communications from your iPhone - me too, let's have a look.
+Ever wondered how you can view the network communications between the apps on your iPhone and the internet - me too, let's have a look.
+
+{{< admonition type=note title="Note" open=true >}}
+This will allow you to view *some* un-encrypted data, but not all, some apps have additional protection that I'll cover at the end.
+{{< /admonition >}}
 
 ## Goals
 
 There are two things I'd like to do
 
 1. Intercept the network communications
-2. Decrypt the communications
+2. Decrypt the communications so I can see what they're doing
 
 ### Intercepting Network Communications
-I somehow need to inject an intermediary between my phone and the internet that can accept the network communications from my iPhone, and forward the traffic to the intended recipients.
+We somehow need to inject an intermediary between the phone and the internet that can accept the network communications, and forward the traffic to the intended recipients.
 
 That intermediary is called a proxy - cool, 1 down :heavy_check_mark:
 
 ### Decrypting Communications
-This one is a bit more complicated, so maybe I need to start off with a quick high level view of how HTTPS works.
+For this one we need to be able to generate SSL certificates for the domains with which the applications are trying to communicate.
+
+By doing this, we own the private key associated with the certificate, and are able to decrypt and view the communications before re-encrypting it with the real public key, and passing it on the the intended recipient.
+
+{{< admonition type=note title="Note" open=true >}}
+This combination of interception and decryption is commonly refered to as a "man-in-the-middle" or "MITM" attack.
+{{< /admonition >}}
+
+All SSL certificates are created by a `Certificate Authority` or `CA`, so we're going to need one of those.
+
+Crucially, `trust` is very important, the operating system will only trust limited number of verified CA's, and this list is automatically maintained by Apple for iOS.
+
+Fortunately, having physical access to the device means we can tell the operating system to trust our custom `Certificate Authority` :heavy_check_mark:
+
+## Okay okay, show me how
+Some quick Googling led me to an open source, cross platform project named `mitmproxy` that meets all my requirements above.
+
+To get everything up and running, we're going to need to start the proxy, and then do some configuration on the phone.
+
+### Starting mitmproxy
+This part is super easy, but first, let's take note of the IP address we're going to need to configure the phone.
+
+For Windows, open Terminal, or PowerShell or a command prompt and run this command.
+
+```Powershell
+ipconfig
+```
+The result should look something like this - Note down the IPv4 Address associated with your WiFi adapter - in my case, that is `192.168.1.9`
+{{< figure src="images/ipconfig.png" alt="IP Configuration"  >}}
+
+I chose to use the official docker variant of mitmproxy.
+
+To get this up and running, run the following docker command.
 
 ```Powershell
 docker run --rm -it -p 8080:8080 mitmproxy/mitmproxy
 ```
+This will start mitmproxy using the docker interactive mode, and bind it to port 8080.
+
+If you see this, you're good to go - and we're done starting mitmproxy - Do not close the window.
+
+{{< figure src="images/mitmrunning.png" alt="mitm running"  >}}
+
+
+### iOS configuration
+The following will all be done on your phone.
+
+It's a bit of a pain, but is also fairly easy.
+
+The overall steps are:
+1. Configure iOS to use our new proxy (mitmproxy)
+2. Install a custom profile
+3. Tell iOS to trust our custom Certificate Authority
+
+#### Proxy Configuration
+- Navigate to `Settings/Wi-Fi` and tap on the blue circled `i` on the right.
+- Scroll to the bottom, and tap on `Configure Proxy`
+- Select `Manual` and enter the the IP configuration we noted earlier, and enter `8080` as the port
+- Save
+
+Here is mine for reference
+
+{{< figure src="images/proxy-config.png" alt="Proxy Configuration"  >}}
+
+That's it for the proxy configuration, but lets see what its done.
+
+If you open Safari, and navigate to https://abc.net.au - you should see something like this.
+
+{{< figure src="images/invalid-certificate-abc.png" alt="Invalid Certificate"  >}}
+
+The warning is telling us that there is something wrong with the SSL certificate for this website.
+
+This is entirely expected becuase the certificate was generated by an untrusted Certificate Authority - the mitmproxy.
+
+#### Install a custom profile
+- Open Safari
+- Navigate to [http://mitm.it](http://mitm.it)
+- Tap on the Apple option
+- Select `Allow` for the prompt, and select your iPhone device if prompted
+- Navigate to `Settings/General/Profiles`
+- Tap the mitmproxy profile, and follow the prompts to install and enable the profile.
+
+The result should look like this.
+
+{{< figure src="images/profile-enable.png" alt="Profile Installed"  >}}
+
+#### Trust the custom Certificate Authority
+Okay, last stretch
+
+- Navigate to `Settings/General/About`
+- Scroll to the bottom and tap `Certificate Trust Settings`
+- Enable the mitmproxy root certificate, and accept the prompts
+
+You should get to this
+
+{{< figure src="images/certificate-trust-settings.png" alt="Certificate Trust Settings"  >}}
+
+
+If you go back to your browser now and refresh the abc website - the warning should be gone!
+
+And, if you now view the mitm terminal window you started earlier, you will see the unencrypted contents of the communications. (note the HTTPS)
+
+{{< figure src="images/capturing.png" alt="mitm terminal capturing"  >}}
+
+And, if you select one of the lines, you can dive into the actual request and response data - wooohooo *jiggle*
+
+{{< figure src="images/capturing-response.png" alt="mitm terminal capturing - response"  >}}
+
+
+## When this won't work
+While this strategy does work for *many* apps, some applications include some additional security by using `Certificate Pinning`
+
+Essentially, what this does is explicitly tell the application which certificates it can trust, even if the operating system says its okay.
+
+I still need to explore options for working around this, but it will very likely mean Jail Breaking iOS.
+
+For a quick reference, here are some applications I tried.
+
 Apps that worked
-Safari
-Weather
-Photos
-Gmail
-LinkedIn
+- Safari
+- Weather
+- Photos
+- Gmail
+- LinkedIn
 
 Apps that didn't work
-App Store
-FaceBook
-Instagram
+- App Store
+- FaceBook
+- Instagram
 
 ## References
-- [mitmproxy](https://mitmproxy.org/)
+- [mitmproxy Website](https://mitmproxy.org/)
+- [mitmproxy GitHub](https://github.com/mitmproxy/mitmproxy)
+- [certificate pinning](https://www.raywenderlich.com/1484288-preventing-man-in-the-middle-attacks-in-ios-with-ssl-pinning)
