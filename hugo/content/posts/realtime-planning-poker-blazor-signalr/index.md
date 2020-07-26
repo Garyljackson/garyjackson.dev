@@ -294,7 +294,7 @@ A Blazor application is largely composed of a bunch of Blazor components, many o
 
 How do we maintain state across various components?
 
-As far as I can tell there are essentially two options.
+As far as I can tell there are essentially three options.
 1. Explicitly expose a paramater in each component, and manually plumb the data.
 2. Use cascading parameters - In this case, Blazor automatically exposes the data to sub-components automatically.
 3. Use dependency injection to create something to manage state for you.
