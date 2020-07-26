@@ -354,13 +354,22 @@ Treat Blazor WASM exactly how you would any other Single Page App like React. e.
 - Don't trust the client - validate everything on the server
 
 #### Resharper causes Visual Studio crashes
+{{< admonition type=note title="Note" open=true >}}
+
+I have since updated to Resharper 2020.1.4, and things are a lot better.
+{{< /admonition >}}
+
 My Visual Studio 2019 kept crashing, disabling the ReSharper plugin solved the issue.
 At the time of writing, the versions were
 - Visual Studio 2019: Version 16.6.5
-- Resharper: 2020.1.4
+- Resharper: 2019.3.2
 
 {{< figure src="images/CrashProcess.png" alt="Crash Process" >}}
 {{< figure src="images/CrashReason.png" alt="Crash Reason" >}}
+
+
+
+
 
 #### Integrity Error
 Sometimes, after modifying and running your code - the browser will report an Integrity Error in the developer tools console.
