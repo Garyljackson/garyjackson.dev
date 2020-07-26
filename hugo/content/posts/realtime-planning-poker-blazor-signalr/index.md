@@ -1,6 +1,6 @@
 ---
 title: "Blazor Learnings - Realtime planning poker with Blazor and SignalR"
-summary: "What is a contained database user, and how to use them?"
+summary: "Blazor learnings from creating a realtime collaborative poker planning app"
 date: "2020-07-26T11:00:00+10:00"
 lastmod: "2020-07-26T11:00:00+10:00"
 author: Gary Jackson
