@@ -6,11 +6,11 @@ lastmod: "2020-07-26T11:00:00+10:00"
 author: Gary Jackson
 draft: false
 categories:
-- "Development"
+  - "Development"
 tags:
-- "Blazor"
-- "SignalR"
-- ".NET Core"
+  - "Blazor"
+  - "SignalR"
+  - ".NET Core"
 ---
 
 ## Overview
@@ -19,20 +19,23 @@ I took some time out over the past weekend to dive into a bit of Blazor Web Asse
 These are my learnings and takeaways from the experience.
 
 ## The App
+
 Most people will already be familiar with planning poker, at a high level I wanted to support the following features
+
 - Realtime remote collaboration
 - Create new game or join existing game in progress
 - Votes remain hidden until everyone has voted
 - Reset the game for all participants
 
-A demo version of the application is available [Here](https://realtimeplanningpoker.azurewebsites.net/)  
-Or, if you'd like to jump into the source - you can find that [Here](https://github.com/Garyljackson/PlanningPoker)
+if you'd like to jump into the source - you can find that [Here](https://github.com/Garyljackson/PlanningPoker)
 
 {{< figure src="images/StartGame.png" alt="Game start" >}}
 {{< figure src="images/Revealed.png" alt="Votes revealed" >}}
 
 ## Learnings
+
 ### How easy is it to get started?
+
 This really couldn't have been any easier, assuming you already have the latest version of .NET Core, open your favourite terminal and run
 
 ```
@@ -49,10 +52,12 @@ And, if you hit run, you'll get the Blazer hello world application
 {{< figure src="images/HelloWorld.png" alt="Hello World" >}}
 
 ### SignalR configuration
+
 The SignalR package is included in the server project by default.
 To get SignalR up and running, all you need is a hub, and some extra configuration sauce.
 
 Example Hub
+
 ```c#
 using Microsoft.AspNetCore.SignalR;
 using PlanningPoker.Shared;
@@ -69,7 +74,9 @@ namespace PlanningPoker.Server.Hubs
 }
 
 ```
+
 In the `Startup.cs` file, include the following highlighted changes
+
 ```c# {linenos=table,hl_lines=[3,"6-10"]}
         public void ConfigureServices(IServiceCollection services)
         {
@@ -116,7 +123,8 @@ In the `Startup.cs` file, include the following highlighted changes
             });
         }
 ```
-Besides adding your specific implementation for your `Hub` this is all that was needed to get SignalR up and running.  
+
+Besides adding your specific implementation for your `Hub` this is all that was needed to get SignalR up and running.
 
 The full implementation for my hub is available [here](https://github.com/Garyljackson/PlanningPoker/blob/master/Server/Hubs/GameHub.cs)
 
@@ -128,11 +136,12 @@ Hubs are transient:
 
 {{< /admonition >}}
 
-
 ### Component Composition
+
 Using the default approach, components are composed of both markup and C# code.
 
 `MyCoolThing.razor`
+
 ```c#
 <h3>MyCoolThing</h3>
 
@@ -152,17 +161,18 @@ To use this component from within another is simply a matter of referencing the 
 }
 ```
 
-
 ### Code Behind
+
 At this point you might be thinking the same as I was - "Yuk, I don't like having all my markup and c# code mixed together like this".
 
 So, does Blazor support a sort of Code Behind concept?
 
-Yes, yes it does! 
+Yes, yes it does!
 
 To do this you need to use `partial` classes - [Microsoft has some helpful documentation on the subject](https://docs.microsoft.com/en-us/aspnet/core/blazor/components/?view=aspnetcore-3.1#partial-class-support)
 
 ### Component Events
+
 How can child components communicate events to a parent component?
 
 This one turned out to be super simple too.
@@ -188,6 +198,7 @@ From with the child component, expose an `EventCallback` parameter
 }
 
 ```
+
 Then wherever you use the component, just wire up a handler method
 
 ```c#
@@ -204,6 +215,7 @@ Then wherever you use the component, just wire up a handler method
 ```
 
 ### Blazor Dependency Injection
+
 Registering services with Blazor WASM is very similar to registering services with any .NET Core application
 
 ```c# {linenos=table,hl_lines=[10]}
@@ -226,9 +238,8 @@ namespace PlanningPoker.Client
 ```
 
 {{< admonition type=warning title="Note" open=true >}}
-Blazor WebAssembly apps don't currently have a concept of DI scopes. `Scoped`-registered services behave like `Singleton` services. 
+Blazor WebAssembly apps don't currently have a concept of DI scopes. `Scoped`-registered services behave like `Singleton` services.
 {{< /admonition >}}
-
 
 Then, within the Blazor component itself, simply include the `@inject` Razor directive
 
@@ -241,6 +252,7 @@ Then, within the Blazor component itself, simply include the `@inject` Razor dir
 ```
 
 ### Debugging
+
 The debug configuration is all handled by the Dotnet new template, but it's helpful to know where this configuration lives.
 
 If you have a look at the `launchSettings.json` file for the client app, you will see the following lines. (highlighted)
@@ -277,12 +289,12 @@ In case you're wondering, `wsProtocol` means WebSockets protocol
     }
   }
 }
-
 ```
 
 {{< admonition type=warning title="Note" open=true >}}
 
 Debugging requires either of the following browsers.
+
 - Google Chrome (version 70 or later) (default)
 - Microsoft Edge (version 80 or later)
 
@@ -290,11 +302,13 @@ It most certainly doesn't work with FireFox - this one caught me out for a while
 {{< /admonition >}}
 
 ### State Management
+
 A Blazor application is largely composed of a bunch of Blazor components, many of those nested within each other.
 
 How do we maintain state across various components?
 
 As far as I can tell there are essentially three options.
+
 1. Explicitly expose a paramater in each component, and manually plumb the data.
 2. Use cascading parameters - In this case, Blazor automatically exposes the data to sub-components automatically.
 3. Use dependency injection to create something to manage state for you.
@@ -306,6 +320,7 @@ The trick is to create some kind of state manager service, and register that wit
 Though, I can't say I really put all that much thought into the pro's and con's for each approach.
 
 ### Wiring up SignalR
+
 To get SignalR working with your app, you'll first need to add the `Microsoft.AspNetCore.SignalR.Client` Nuget package to your client.
 
 Then, within the code section of your component, initialise a new hub, and subscribe to the relevant events.
@@ -344,16 +359,20 @@ Then, within the code section of your component, initialise a new hub, and subsc
 ```
 
 ### Other stuff worth mentioning
+
 #### Blazor Web Assembly code is not secure
+
 I'm sure you already realise this, but it's worth mentioning just in case.
 
 The code and files for your Blazor Web assembly app can easily be viewed on the client.
 
 Treat Blazor WASM exactly how you would any other Single Page App like React. e.g.
+
 - Don't include anything secret in your code
 - Don't trust the client - validate everything on the server
 
 #### Resharper causes Visual Studio crashes
+
 {{< admonition type=note title="Note" open=true >}}
 
 I have since updated to Resharper 2020.1.4, and things are a lot better.
@@ -361,21 +380,18 @@ I have since updated to Resharper 2020.1.4, and things are a lot better.
 
 My Visual Studio 2019 kept crashing, disabling the ReSharper plugin solved the issue.
 At the time of writing, the versions were
+
 - Visual Studio 2019: Version 16.6.5
 - Resharper: 2019.3.2
 
 {{< figure src="images/CrashProcess.png" alt="Crash Process" >}}
 {{< figure src="images/CrashReason.png" alt="Crash Reason" >}}
 
-
-
-
-
 #### Integrity Error
+
 Sometimes, after modifying and running your code - the browser will report an Integrity Error in the developer tools console.
 
 Doing a full rebuild of the solution solves this
 {{< figure src="images/IntegrityError.png" alt="Integrity Error" >}}
-
 
 Okay, I that's all I can think of at the moment, I'll be sure to update this if anything else comes to me
