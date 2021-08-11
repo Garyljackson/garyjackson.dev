@@ -2,9 +2,9 @@
 title: "Azure Function App - appsettings.json and user secrets"
 summary: "How to add support for appsettings.json and user secrets to a .NET 5 isolated Azure function app"
 date: "2021-08-09T17:00:00+10:00"
-lastmod: "2021-08-09T17:00:00+10:00"
+lastmod: "2021-08-11T19:00:00+10:00"
 author: Gary Jackson
-draft: true
+draft: false
 categories:
   - "Development"
 tags:
@@ -145,9 +145,18 @@ Now, this is where the secret sauce comes in - update the `Program.cs` file with
 
 Note the new `ConfigureAppConfiguration` section, ABOVE the `ConfigureFunctionsWorkerDefaults()`.
 
-I've found the `builder.SetBasePath` to be particularly important once it's deployed to Azure, or the `appsettings.json` won't be found.
-
 The order of these registrations is important because the collection of settings providers override each other (Last wins), and if you're using docker containers, you will probably want the environment variable settings provider to override the others.
+
+{{< admonition type=warning title="Note" open=true >}}
+Do not be like me!!
+
+I spent many hours trying to understand why my new Azure Function wasn't able to read my `appsettings.json` file in Azure.
+
+I was deploying to a Linux OS, on Linux the file names are CASE SENSITIVE.
+
+My code was referencing `appsettings.json`, but my file was named `appSettings.json`..
+
+{{< /admonition >}}
 
 At this point that we're also registering the `ExampleServiceOptions` with our DI container.
 
@@ -166,8 +175,7 @@ namespace AzureFunctionWithSettings
             var host = new HostBuilder()
                 .ConfigureAppConfiguration(builder =>
                 {
-                    builder.SetBasePath(Environment.CurrentDirectory)
-                        .AddJsonFile("appsettings.json", true, true)
+                    builder.AddJsonFile("appsettings.json", true, true)
                         .AddUserSecrets(Assembly.GetExecutingAssembly(), true);
                 })
                 .ConfigureFunctionsWorkerDefaults()
