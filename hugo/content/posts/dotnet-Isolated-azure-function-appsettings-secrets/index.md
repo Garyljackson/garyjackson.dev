@@ -4,7 +4,7 @@ summary: "How to add support for appsettings.json and user secrets to a .NET 5 i
 date: "2021-08-09T17:00:00+10:00"
 lastmod: "2021-08-09T17:00:00+10:00"
 author: Gary Jackson
-draft: false
+draft: true
 categories:
   - "Development"
 tags:
@@ -145,6 +145,8 @@ Now, this is where the secret sauce comes in - update the `Program.cs` file with
 
 Note the new `ConfigureAppConfiguration` section, ABOVE the `ConfigureFunctionsWorkerDefaults()`.
 
+I've found the `builder.SetBasePath` to be particularly important once it's deployed to Azure, or the `appsettings.json` won't be found.
+
 The order of these registrations is important because the collection of settings providers override each other (Last wins), and if you're using docker containers, you will probably want the environment variable settings provider to override the others.
 
 At this point that we're also registering the `ExampleServiceOptions` with our DI container.
@@ -164,7 +166,8 @@ namespace AzureFunctionWithSettings
             var host = new HostBuilder()
                 .ConfigureAppConfiguration(builder =>
                 {
-                    builder.AddJsonFile("appsettings.json", true, true)
+                    builder.SetBasePath(Environment.CurrentDirectory)
+                        .AddJsonFile("appsettings.json", true, true)
                         .AddUserSecrets(Assembly.GetExecutingAssembly(), true);
                 })
                 .ConfigureFunctionsWorkerDefaults()
