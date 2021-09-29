@@ -97,8 +97,8 @@ To deploy this solution you will need to do the following steps
 - Open Powershell
 - Login with the Azure CLI `az login`
 - Copy the script below
-- Update `$ProxyWebAppName` - this is the web app name and needs to be globally unique with Azure
-- Excute the script
+- Update `$ProxyWebAppName` - this is the web app name and needs to be globally unique within Azure
+- Execute the script
 - The final CLI command will output the details for the proxy web application for you to use in a browser.
 
 ```powershell
