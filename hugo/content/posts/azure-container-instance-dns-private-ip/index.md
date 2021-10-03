@@ -16,7 +16,7 @@ tags:
 
 ## Overview
 
-My recent adventures with Azure Container Registry have presented a few side quests along the way.
+My recent adventures with Azure Container Instances have presented a few side quests along the way.
 
 Today I'll cover the limitations I've discovered with regards to private DNS and IP allocations.
 
