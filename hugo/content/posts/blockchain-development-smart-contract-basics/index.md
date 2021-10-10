@@ -20,7 +20,7 @@ The topics I would like to cover in the follow-up post are
 
 - Dev tools and environment
 - Create your very own Token/Cryptocurrency
-- Build a Defi application
+- Build a Decentralized finance (DeFi) application
   - A stretch goal, but hey, they're all the rage right now.
 
 # Getting Started
@@ -98,7 +98,7 @@ Binance Smart Chain is not decentralised
 
 The programming language you use to program your smart contracts on Ethereum is called Solidity.
 
-[Solidity Dodo](https://docs.soliditylang.org/en/v0.8.9/)
+[Solidity Doco](https://docs.soliditylang.org/en/v0.8.9/)
 
 ## Conclusion
 
