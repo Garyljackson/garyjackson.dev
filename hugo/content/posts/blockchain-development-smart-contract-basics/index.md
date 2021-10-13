@@ -10,6 +10,7 @@ categories:
 tags:
   - "Smart Contracts"
   - "Ethereum"
+  - "Blockchain"
 ---
 
 # Intro
