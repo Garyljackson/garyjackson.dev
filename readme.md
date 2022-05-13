@@ -13,3 +13,9 @@ When prompted, re-open in container
 cd hugo
 hugo server
 ```
+
+## Update the theme  
+
+```bash
+git submodule foreach git pull origin master
+```  
