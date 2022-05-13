@@ -1,11 +1,15 @@
 # How to
 
-## Run
+## Development
+
+Clone this repository  
+
+`git clone https://github.com/Garyljackson/garyjackson.dev.git --recursive`
+
+Open the folder with Visual Studio Code  
+When prompted, re-open in container  
 
 ```bash
-git clone https://github.com/Garyljackson/garyjackson.dev.git --recursive
-
 cd hugo
-
 hugo server
 ```
